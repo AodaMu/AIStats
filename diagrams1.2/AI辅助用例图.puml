@@ -1,0 +1,45 @@
+@startuml AI_Assistant_Use_Case
+skinparam monochrome true
+skinparam shadowing false
+skinparam actorStyle hollow
+skinparam defaultFontSize 10
+
+left to right direction
+
+title AI Туслах Шинжилгээний Хэрэглээний Тохиолдол
+
+actor "User" as User
+
+' -------- 主要用例 --------
+usecase "Configure API" as UC_Config
+usecase "Natural Language Query" as UC_Query
+usecase "View Chat History" as UC_History
+usecase "Clear Conversation" as UC_Clear
+
+' -------- AI核心功能 --------
+usecase "Auto Method Selection" as UC_Auto
+usecase "Execute Analysis" as UC_Execute
+usecase "Result Interpretation" as UC_Interpret
+
+' -------- 支持的统计方法 --------
+usecase "Descriptive Stats" as UC1
+usecase "Independent t Test" as UC2
+usecase "Pearson Correlation" as UC3
+
+' ======== 用户与主要用例的关系 ========
+User --> UC_Config
+User --> UC_Query
+User --> UC_History
+User --> UC_Clear
+
+' ======== AI自动处理流程 ========
+UC_Query --> UC_Auto
+UC_Auto --> UC_Execute
+UC_Execute --> UC_Interpret
+
+' ======== 统计方法 ========
+UC_Execute --> UC1
+UC_Execute --> UC2
+UC_Execute --> UC3
+
+@enduml

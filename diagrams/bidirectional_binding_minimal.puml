@@ -1,0 +1,51 @@
+@startuml Bidirectional_Binding_Minimal
+
+skinparam backgroundColor white
+skinparam defaultFontColor black
+skinparam rectangleFontColor black
+skinparam rectangleBackgroundColor white
+skinparam rectangleBorderColor black
+skinparam noteFontColor black
+skinparam noteBackgroundColor #FFFFCC
+skinparam noteBorderColor black
+skinparam arrowColor black
+skinparam titleFontColor black
+
+title Bidirectional Binding: 2 AI Calls + 1 Function Execution
+
+rectangle "**User Input**\nIs there a difference\nin scores by gender?" as Input
+
+rectangle "**AI Call 1**\nUnderstand intent\n|\nGenerate function call" as AI1
+
+rectangle "**Execute Function**\nt-test calculation\n|\nt=2.345\np=0.023" as Exec
+
+rectangle "**AI Call 2**\nInterpret results\n|\nGenerate explanation" as AI2
+
+rectangle "**User Output**\nSignificant difference\np<0.05\nMales scored higher" as Output
+
+Input -right-> AI1 : 1
+AI1 -right-> Exec : 2 Forward Binding
+Exec -right-> AI2 : 3 Reverse Binding
+AI2 -right-> Output : 4
+
+note bottom of AI1
+  Return JSON:
+  {
+    "name": "t_test",
+    "args": {...}
+  }
+end note
+
+note bottom of Exec
+  Real calculation
+  SciPy
+  Stat Engine
+end note
+
+note bottom of AI2
+  Based on real data
+  Generate plain explanation
+end note
+
+@enduml
+

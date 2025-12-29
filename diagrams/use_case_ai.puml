@@ -1,0 +1,104 @@
+@startuml AIStats详细用例图
+!theme plain
+skinparam backgroundColor #FEFEFE
+
+title AIStats 详细用例图 - 统计分析与AI辅助模块
+
+actor "用户" as User
+actor "DeepSeek API" as API
+
+rectangle "AIStats 系统" {
+  
+  package "统计分析模块" #LightYellow {
+    usecase "描述统计" as UC8
+    usecase "假设检验" as UC9
+    usecase "相关与回归" as UC10
+    usecase "高级分析" as UC11
+    usecase "AI结果解读" as UC12
+    
+    usecase "单样本t检验" as UC9_1
+    usecase "独立样本t检验" as UC9_2
+    usecase "配对样本t检验" as UC9_3
+    usecase "单因素ANOVA" as UC9_4
+    usecase "LSD事后检验" as UC9_5
+    
+    usecase "Pearson相关" as UC10_1
+    usecase "Spearman相关" as UC10_2
+    usecase "线性回归" as UC10_3
+    usecase "逻辑回归" as UC10_4
+    
+    usecase "信度分析" as UC11_1
+    usecase "中介效应" as UC11_2
+  }
+  
+  package "AI辅助分析模块" #Pink {
+    usecase "自然语言查询" as UC13
+    usecase "智能统计分析" as UC14
+    usecase "对话式学习" as UC15
+    
+    usecase "数据信息查询" as UC13_1
+    usecase "变量筛选" as UC13_2
+    
+    usecase "Function Calling" as UC14_1
+    usecase "自动选择方法" as UC14_2
+    usecase "生成分析报告" as UC14_3
+    
+    usecase "统计概念解释" as UC15_1
+    usecase "分析建议" as UC15_2
+  }
+}
+
+' 用户关系
+User --> UC8
+User --> UC9
+User --> UC10
+User --> UC11
+User --> UC13
+User --> UC14
+User --> UC15
+
+' include关系
+UC9 ..> UC9_1 : <<include>>
+UC9 ..> UC9_2 : <<include>>
+UC9 ..> UC9_3 : <<include>>
+UC9 ..> UC9_4 : <<include>>
+UC9 ..> UC9_5 : <<include>>
+
+UC10 ..> UC10_1 : <<include>>
+UC10 ..> UC10_2 : <<include>>
+UC10 ..> UC10_3 : <<include>>
+UC10 ..> UC10_4 : <<include>>
+
+UC11 ..> UC11_1 : <<include>>
+UC11 ..> UC11_2 : <<include>>
+
+UC13 ..> UC13_1 : <<include>>
+UC13 ..> UC13_2 : <<include>>
+
+UC14 ..> UC14_1 : <<include>>
+UC14 ..> UC14_2 : <<include>>
+UC14 ..> UC14_3 : <<include>>
+
+UC15 ..> UC15_1 : <<include>>
+UC15 ..> UC15_2 : <<include>>
+
+' extend关系
+UC12 ..> UC9 : <<extend>>
+UC12 ..> UC10 : <<extend>>
+UC12 ..> UC11 : <<extend>>
+
+' AI服务关系
+UC12 --> API
+UC13 --> API
+UC14 --> API
+UC15 --> API
+
+note right of API
+  <b>AI服务提供商</b>
+  • DeepSeek API
+  • 模型：deepseek-chat
+  • 功能：Function Calling
+end note
+
+@enduml
+

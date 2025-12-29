@@ -1,0 +1,39 @@
+@startuml Data_Management_Use_Case
+skinparam monochrome true
+skinparam shadowing false
+skinparam actorStyle hollow
+skinparam defaultFontSize 10
+
+left to right direction
+
+title Өгөгдлийн Менежментийн Хэрэглээний Тохиолдол
+
+actor "User" as User
+
+usecase "Import Data" as UC1
+usecase "Preview Data" as UC2
+usecase "Manage Variable Labels" as UC3
+usecase "Export Data" as UC4
+
+usecase "Upload Excel/CSV" as UC1_1
+usecase "Load Sample Data" as UC1_2
+
+usecase "View Data Table" as UC2_1
+usecase "View Statistics" as UC2_2
+
+usecase "Set Variable Labels" as UC3_1
+usecase "Set Value Labels" as UC3_2
+
+User -- UC1
+User -- UC2
+User -- UC3
+User -- UC4
+
+UC1 -- UC1_1
+UC1 -- UC1_2
+UC2 -- UC2_1
+UC2 -- UC2_2
+UC3 -- UC3_1
+UC3 -- UC3_2
+
+@enduml

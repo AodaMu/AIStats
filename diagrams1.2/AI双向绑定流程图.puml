@@ -1,0 +1,37 @@
+@startuml AI_Bidirectional_Binding_Flow
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontSize 11
+skinparam activity {
+    BackgroundColor White
+    BorderColor Black
+}
+
+title AI Туслах Шинжилгээний Урсгал (Хоёр талт холболт)
+
+|User|
+start
+:Хэрэглэгчийн оролт\nUser Input;
+
+|AI|
+:AI ойлголт\nAI Understanding;
+:Функц сонгох\nSelect Function;
+
+|Engine|
+:Статистик тооцоолол\nStatistical Calculation;
+:Үр дүн буцаах\nReturn Results;
+
+|AI|
+:AI тайлбар\nAI Interpretation;
+
+|User|
+:Хэрэглэгчийн гаралт\nUser Output;
+
+if (Олон эргэлтийн яриа?\nMulti-turn?) then (yes)
+  :Шинэ асуулт\nNew Question;
+  -> Хэрэглэгчийн оролт;
+else (no)
+  stop
+endif
+
+@enduml

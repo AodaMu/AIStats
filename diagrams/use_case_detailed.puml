@@ -1,0 +1,86 @@
+@startuml AIStats详细用例图
+!theme plain
+skinparam backgroundColor #FEFEFE
+
+title AIStats 详细用例图 - 数据管理与可视化模块
+
+actor "用户" as User
+
+rectangle "AIStats 系统" {
+  
+  package "数据管理模块" #LightBlue {
+    usecase "导入数据" as UC1
+    usecase "预览数据" as UC2
+    usecase "管理变量标签" as UC3
+    usecase "导出数据" as UC4
+    
+    usecase "上传CSV文件" as UC1_1
+    usecase "上传Excel文件" as UC1_2
+    
+    usecase "显示数据信息" as UC2_1
+    usecase "查看前100行" as UC2_2
+    
+    usecase "手动添加标签" as UC3_1
+    usecase "智能VLOOKUP匹配" as UC3_2
+    
+    usecase "导出为CSV" as UC4_1
+    usecase "导出为Excel" as UC4_2
+  }
+  
+  package "可视化模块" #LightGreen {
+    usecase "创建图表" as UC5
+    usecase "交互式探索" as UC6
+    
+    usecase "折线图" as UC5_1
+    usecase "散点图" as UC5_2
+    usecase "柱状图" as UC5_3
+    usecase "箱线图" as UC5_4
+    usecase "饼图" as UC5_5
+    usecase "直方图" as UC5_6
+    usecase "3D散点图" as UC5_7
+    
+    usecase "缩放平移" as UC6_1
+    usecase "悬停提示" as UC6_2
+    usecase "导出图片" as UC6_3
+  }
+}
+
+' 用户关系
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC4
+User --> UC5
+User --> UC6
+
+' include关系
+UC1 ..> UC1_1 : <<include>>
+UC1 ..> UC1_2 : <<include>>
+UC1 ..> UC1_3 : <<include>>
+
+UC2 ..> UC2_1 : <<include>>
+UC2 ..> UC2_2 : <<include>>
+
+UC3 ..> UC3_1 : <<include>>
+UC3 ..> UC3_2 : <<include>>
+
+UC4 ..> UC4_1 : <<include>>
+UC4 ..> UC4_2 : <<include>>
+
+UC5 ..> UC5_1 : <<include>>
+UC5 ..> UC5_2 : <<include>>
+UC5 ..> UC5_3 : <<include>>
+UC5 ..> UC5_4 : <<include>>
+UC5 ..> UC5_5 : <<include>>
+UC5 ..> UC5_6 : <<include>>
+UC5 ..> UC5_7 : <<include>>
+
+UC6 ..> UC6_1 : <<include>>
+UC6 ..> UC6_2 : <<include>>
+UC6 ..> UC6_3 : <<include>>
+
+' extend关系
+UC6 ..> UC5 : <<extend>>
+
+@enduml
+

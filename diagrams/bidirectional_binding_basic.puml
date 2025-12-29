@@ -1,0 +1,48 @@
+@startuml Bidirectional_Binding_Basic
+!theme plain
+skinparam defaultFontSize 14
+
+title Bidirectional Binding Core Process
+
+rectangle "User" as User
+rectangle "AI (DeepSeek)" as AI
+rectangle "Stat Engine" as Engine
+
+User -down-> AI : 1. User Input\n"Is there a difference\nin scores by gender?"
+note on link : Natural language query
+
+AI -down-> Engine : 2. Function Call\nindependent_t_test(\n  data_var="score",\n  group_var="gender"\n)
+note on link 
+  <b>Forward Binding</b>
+  1st AI call
+  AI -> Engine
+end note
+
+Engine -up-> AI : 3. Results\nt=2.345\np=0.023\nmean1=85.3\nmean2=78.6
+note on link
+  <b>Reverse Binding</b>
+  Engine -> AI
+end note
+
+AI -up-> User : 4. Interpretation\n"Male: 85.3\nFemale: 78.6\np<0.05 significant"
+note on link : 2nd AI call\nPlain language
+
+note bottom of User
+  <b>User Experience</b>
+  One sentence input
+  Auto get results
+end note
+
+note bottom of AI
+  <b>AI Core</b>
+  Understand -> Execute -> Interpret
+end note
+
+note bottom of Engine
+  <b>Statistical Calc</b>
+  scipy/statsmodels
+  Accurate results
+end note
+
+@enduml
+

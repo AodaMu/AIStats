@@ -1,0 +1,97 @@
+@startuml 统计视图模块结构图
+skinparam componentStyle rectangle
+
+title 统计视图结构\nStatistics View Structure\nСтатистик харагдацын бүтэц
+
+package "前端界面\nFrontend\nФронт интерфейс" {
+  component "统计视图\nStats View\nСтатистик харагдац" as UI_StatView
+  component "分析选择\nAnalysis Select\nШинжилгээ сонгох" as UI_Select
+  component "参数结果\nParams & Results\nПараметр үр дүн" as UI_Console
+}
+
+package "统计分析\nStatistical Analysis\nСтатистик шинжилгээ" {
+  component "描述统计\nDescriptive\nТодорхойлолт" as M_Desc
+  component "t检验\nt-Tests\nt шалгалт" as M_TTests
+  component "方差分析\nANOVA\nДисперс шинжилгээ" as M_ANOVA
+  component "相关分析\nCorrelation\nКорреляци" as M_Corr
+  component "回归分析\nRegression\nРегресс" as M_Reg
+  component "信度中介\nReliability & Mediation\nНайдвартай зуучлал" as M_ReliabMed
+}
+
+package "数据处理\nData Processing\nӨгөгдөл боловсруулалт" {
+  component "变量选择\nVar Selection\nХувьсагч сонгох" as P_Vars
+  component "数据清洗\nData Cleaning\nӨгөгдөл цэвэрлэх" as P_Clean
+}
+
+package "计算引擎\nComputing Engine\nТооцооллын хөдөлгүүр" {
+  component "SciPy/NumPy" as E_SciPyNumPy
+  component "statsmodels" as E_Statsmodels
+}
+
+package "结果解读\nResults & Interpretation\nҮр дүн тайлбар" {
+  component "结果表\nResult Table\nҮр дүнгийн хүснэгт" as R_Table
+  component "显著性\nSignificance\nАч холбогдол" as R_Signif
+  component "AI解读\nAI Interpretation\nХО тайлбар" as R_AIExplain
+}
+
+package "会话状态\nSession State\nСессийн төлөв" {
+  component "data" as S_Data
+  component "stat_result" as S_Result
+  component "ai_config" as S_AI
+}
+
+package "外部库\nExternal Libs\nГадаад сангууд" {
+  component "pandas" as L_Pandas
+  component "NumPy & SciPy" as L_NumPySciPy
+  component "statsmodels" as L_Statsmodels
+  component "LLM" as L_LLM
+}
+
+UI_StatView -- UI_Select
+UI_StatView -- UI_Console
+
+UI_Select --> M_Desc
+UI_Select --> M_TTests
+UI_Select --> M_ANOVA
+UI_Select --> M_Corr
+UI_Select --> M_Reg
+UI_Select --> M_ReliabMed
+
+S_Data --> P_Vars
+P_Vars --> P_Clean
+P_Clean --> M_Desc
+P_Clean --> M_TTests
+P_Clean --> M_ANOVA
+P_Clean --> M_Corr
+P_Clean --> M_Reg
+P_Clean --> M_ReliabMed
+
+M_Desc --> E_SciPyNumPy
+M_TTests --> E_SciPyNumPy
+M_ANOVA --> E_SciPyNumPy
+M_Corr --> E_SciPyNumPy
+M_Reg --> E_Statsmodels
+M_ReliabMed --> E_Statsmodels
+
+E_SciPyNumPy --> R_Table
+E_Statsmodels --> R_Table
+R_Table --> R_Signif
+
+R_Table --> UI_Console
+R_Signif --> UI_Console
+
+UI_Console --> R_AIExplain
+R_AIExplain --> L_LLM
+L_LLM --> R_AIExplain
+R_AIExplain --> UI_Console
+
+R_Table --> S_Result
+S_Data --> L_Pandas
+M_Desc --> L_NumPySciPy
+M_TTests --> L_NumPySciPy
+M_ANOVA --> L_NumPySciPy
+M_Corr --> L_NumPySciPy
+M_Reg --> L_Statsmodels
+M_ReliabMed --> L_Statsmodels
+
+@enduml

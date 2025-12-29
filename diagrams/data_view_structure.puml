@@ -1,0 +1,51 @@
+@startuml 数据视图和值标签结构图
+skinparam componentStyle rectangle
+
+title 数据视图与标签结构\nData View & Label Structure\nӨгөгдөл ба шошгоны бүтэц
+
+package "前端界面\nFrontend\nФронт" {
+  component "数据视图\nData View\nӨгөгдөл харагдац" as DataView
+  component "标签管理\nLabel Mgmt\nУтгын тэмдэглэгээ" as LabelMgmt
+}
+
+package "数据处理\nData Processing\nӨгөгдөл боловсруулалт" {
+  component "文件上传\nFile Upload\nФайл оруулах" as FileUpload
+  component "数据管理\nData Mgmt\nӨгөгдөл удирдлага" as DataMgmt
+  component "数据导出\nData Export\nӨгөгдөл экспорт" as DataExport
+}
+
+package "标签处理\nLabel Processing\nШошго боловсруулалт" {
+  component "变量标签\nVar Labels\nХувьсагч шошго" as VarLabels
+  component "值标签\nValue Labels\nУтга шошго" as ValueLabels
+  component "VLOOKUP" as VLookup
+}
+
+package "数据存储\nData Storage\nӨгөгдөл хадгалалт" {
+  component "Session State" as SessionState
+}
+
+package "外部库\nExternal Libs\nГадаад сангууд" {
+  component "pandas" as Pandas
+  component "openpyxl" as OpenPyXL
+}
+
+DataView --> FileUpload
+DataView --> DataMgmt
+DataView --> DataExport
+
+LabelMgmt --> VarLabels
+LabelMgmt --> ValueLabels
+LabelMgmt --> VLookup
+
+FileUpload --> Pandas
+Pandas --> DataMgmt
+DataMgmt --> SessionState
+
+VarLabels --> SessionState
+ValueLabels --> SessionState
+VLookup --> SessionState
+
+DataExport --> SessionState
+DataExport --> OpenPyXL
+
+@enduml

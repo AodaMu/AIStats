@@ -1,0 +1,118 @@
+@startuml 数据视图和值标签框架图
+skinparam classBackgroundColor #FEFEFE
+skinparam classBorderColor #333333
+
+package "数据视图模块 (Data View)" {
+  class DataViewManager {
+    - df: DataFrame
+    - data_name: str
+    - file_uploader: FileUploader
+    --
+    + load_csv(file): DataFrame
+    + load_excel(file): DataFrame
+    + get_data_summary(): dict
+    + validate_data(): bool
+    + export_csv(df): bytes
+    + export_excel(df): bytes
+    + preview_data(n_rows): DataFrame
+  }
+
+  class FileUploader {
+    - supported_types: list
+    - max_size: int
+    --
+    + validate_file(file): bool
+    + get_file_extension(filename): str
+    + check_file_size(file): bool
+  }
+
+  class DataPreview {
+    - df: DataFrame
+    - n_rows: int
+    --
+    + show_head(n): DataFrame
+    + show_info(): dict
+    + show_statistics(): dict
+    + show_memory_usage(): str
+  }
+}
+
+package "值标签管理模块 (Variable Labels)" {
+  class VariableLabelManager {
+    - labels_dict: dict
+    - data: DataFrame
+    --
+    + add_label(column, label): bool
+    + update_label(column, label): bool
+    + delete_label(column): bool
+    + get_label(column): str
+    + get_all_labels(): dict
+    + save_labels(): bool
+    + load_labels(): dict
+  }
+
+  class ValueLabelManager {
+    - value_labels: dict
+    - mapping_file: str
+    --
+    + add_value_label(column, value, label): bool
+    + update_value_label(column, value, label): bool
+    + get_value_label(column, value): str
+    + apply_labels_to_column(column): Series
+    + vlookup_match(data_dict): dict
+  }
+
+  class VLookupEngine {
+    - data_dict: DataFrame
+    - match_threshold: float
+    --
+    + load_dictionary(file): DataFrame
+    + match_variables(columns, dict_data): dict
+    + fuzzy_match(col_name, dict_names): str
+    + auto_apply_labels(df, matches): DataFrame
+  }
+}
+
+package "数据存储 (Session State)" {
+  class SessionStateManager {
+    - data: DataFrame
+    - data_name: str
+    - variable_labels: dict
+    - value_labels: dict
+    --
+    + save_data(df): bool
+    + get_data(): DataFrame
+    + save_labels(labels): bool
+    + get_labels(): dict
+    + clear_all(): bool
+  }
+}
+
+package "导出功能 (Export)" {
+  class DataExporter {
+    - df: DataFrame
+    - labels: dict
+    --
+    + to_csv(filename): bytes
+    + to_excel(filename): bytes
+    + apply_labels_before_export(): DataFrame
+  }
+}
+
+' 关系定义
+DataViewManager --> FileUploader: 使用
+DataViewManager --> DataPreview: 包含
+DataViewManager --> SessionStateManager: 读写
+DataViewManager --> DataExporter: 调用
+
+VariableLabelManager --> SessionStateManager: 读写
+ValueLabelManager --> SessionStateManager: 读写
+ValueLabelManager --> VLookupEngine: 使用
+
+VLookupEngine --> DataViewManager: 获取数据
+VLookupEngine --> ValueLabelManager: 更新标签
+
+DataExporter --> VariableLabelManager: 获取标签
+DataExporter --> ValueLabelManager: 获取值标签
+
+@enduml

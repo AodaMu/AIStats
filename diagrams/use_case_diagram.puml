@@ -1,0 +1,58 @@
+@startuml AIStats_Use_Case_Diagram
+!theme plain
+top to bottom direction
+scale 0.85
+skinparam usecase {
+  FontSize 9
+}
+skinparam package {
+  FontSize 10
+}
+
+title AIStats Use Case Diagram
+
+actor "Beginner" as Student
+actor "Researcher" as Researcher
+actor "DeepSeek API" as API
+
+rectangle "AIStats Platform" {
+  
+  package "Data Management" {
+    usecase "Import/Export Data" as UC1
+    usecase "Manage Labels" as UC2
+  }
+  
+  package "Visualization" {
+    usecase "Create Charts" as UC3
+    usecase "AI Chart Analysis" as UC4
+  }
+  
+  package "Statistical Analysis" {
+    usecase "Descriptive Statistics" as UC5
+    usecase "Hypothesis Testing" as UC6
+    usecase "Correlation & Regression" as UC7
+    usecase "AI Interpretation" as UC8
+  }
+  
+  package "AI-assisted Analysis" {
+    usecase "Natural Language Query" as UC9
+    usecase "Intelligent Analysis" as UC10
+  }
+}
+
+Student --> UC1
+Student --> UC3
+Student --> UC5
+Student --> UC9
+
+Researcher --> UC2
+Researcher --> UC6
+Researcher --> UC7
+Researcher --> UC10
+
+UC4 --> API
+UC8 --> API
+UC9 --> API
+UC10 --> API
+
+@enduml

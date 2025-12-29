@@ -1,0 +1,76 @@
+@startuml AIStats_System_Architecture
+skinparam componentStyle rectangle
+top to bottom direction
+
+title AIStats Систем Архитектур (Дөрвөн давхар)
+
+package "Илэрхийлэлийн давхар\nPresentation Layer" as PresentationLayer {
+  component "Өгөгдлийн харагдац\nData View" as DataView
+  component "Утгын шошго\nLabel View" as LabelView
+  component "AI харагдац\nAI View" as AIView
+  component "Зураг харагдац\nPlot View" as PlotView
+  component "Статистик харагдац\nStats View" as StatView
+  component "Нэр томьёо тайлбар\nTerminology" as TermView
+  
+  ' 水平排列
+  DataView -[hidden]right- LabelView
+  LabelView -[hidden]right- AIView
+  AIView -[hidden]right- PlotView
+  PlotView -[hidden]right- StatView
+  StatView -[hidden]right- TermView
+}
+
+package "Үндсэн давхар\nCore Layer" as CoreLayer {
+  component "Статистик шинжилгээ\nStat Analyzer" as StatAnalyzer
+  component "AI туслах\nAI Assistant" as AIAssist
+  component "Харуулах хөдөлгүүр\nVisualization" as VizEngine
+  component "Өгөгдөл боловсруулалт\nData Processing" as DataProc
+}
+
+package "Өгөгдөлд хандах давхар\nData Access Layer" as DataAccessLayer {
+  component "Сесс төлөв менежмент\nSession State" as SessionState
+}
+
+' 让Session State与Data Processing和Stat Analyzer对齐居中
+DataProc -[hidden]down- SessionState
+StatAnalyzer -[hidden]down- SessionState
+
+package "Суурь давхар\nInfrastructure Layer" as InfraLayer {
+  component "pandas" as Pandas
+  component "NumPy" as NumPy
+  component "SciPy" as SciPy
+  component "statsmodels" as Statsmodels
+  component "Plotly" as Plotly
+  component "DeepSeek API" as DeepSeekAPI
+  component "Файл задлагч\nFile Parser" as FileParser
+}
+
+' 表示层 -> 核心层
+DataView ..> DataProc
+LabelView ..> DataProc
+PlotView ..> VizEngine
+StatView ..> StatAnalyzer
+AIView ..> AIAssist
+
+' 核心层 -> 基础层
+StatAnalyzer --> SciPy
+StatAnalyzer --> Statsmodels
+' AIAssist通过SessionState访问DeepSeek
+VizEngine --> Plotly
+DataProc --> Pandas
+DataProc --> NumPy
+DataProc --> FileParser
+
+' 核心层 -> 数据访问层
+StatAnalyzer --> SessionState
+AIAssist --> SessionState
+VizEngine --> SessionState
+DataProc --> SessionState
+
+' 层级垂直排列
+PresentationLayer -[hidden]down- CoreLayer
+CoreLayer -[hidden]down- DataAccessLayer
+DataAccessLayer -[hidden]down- InfraLayer
+
+@enduml
+

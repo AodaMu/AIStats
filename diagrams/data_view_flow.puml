@@ -1,0 +1,112 @@
+@startuml 数据视图和值标签页面运行流程
+skinparam sequenceMessageAlign center
+participant "用户" as User
+participant "Streamlit UI" as UI
+participant "Session State" as State
+participant "data_view.py" as DataView
+participant "pandas" as Pandas
+participant "variable_labels.py" as Labels
+
+User -> UI: 1. 点击"📁 数据视图"
+activate UI
+
+UI -> DataView: 初始化数据视图模块
+activate DataView
+
+DataView -> State: 检查session_state中的数据
+activate State
+State --> DataView: 返回现有数据(如有)
+deactivate State
+
+DataView -> UI: 显示导入界面
+deactivate DataView
+
+User -> UI: 2. 选择数据文件(CSV/Excel)
+UI -> DataView: 调用load_data()
+activate DataView
+
+DataView -> Pandas: 读取文件
+activate Pandas
+Pandas --> DataView: 返回DataFrame
+deactivate Pandas
+
+DataView -> State: 保存数据到session_state
+activate State
+State --> DataView: 确认保存
+deactivate State
+
+DataView -> UI: 显示数据预览和统计信息
+deactivate DataView
+
+User -> UI: 3. 查看数据预览(前100行)
+UI -> DataView: 获取预览数据
+activate DataView
+DataView -> State: 读取数据
+State --> DataView: 返回DataFrame
+DataView --> UI: 显示表格
+deactivate DataView
+
+User -> UI: 4. 点击"变量标签管理"
+UI -> Labels: 初始化标签管理模块
+activate Labels
+
+Labels -> State: 获取当前数据的列名
+activate State
+State --> Labels: 返回列名列表
+deactivate State
+
+Labels -> UI: 显示变量标签编辑界面
+deactivate Labels
+
+User -> UI: 5. 编辑变量标签
+UI -> Labels: 更新标签
+activate Labels
+
+Labels -> State: 保存标签到session_state
+activate State
+State --> Labels: 确认保存
+deactivate State
+
+Labels -> UI: 刷新显示
+deactivate Labels
+
+User -> UI: 6. 使用VLOOKUP自动匹配标签
+UI -> Labels: 调用vlookup_labels()
+activate Labels
+
+Labels -> Pandas: 从数据字典文件读取映射
+activate Pandas
+Pandas --> Labels: 返回映射表
+deactivate Pandas
+
+Labels -> State: 自动更新匹配的标签
+activate State
+State --> Labels: 确认更新
+deactivate State
+
+Labels -> UI: 显示匹配结果
+deactivate Labels
+
+User -> UI: 7. 导出数据
+UI -> DataView: 调用export_data()
+activate DataView
+
+DataView -> State: 获取数据和标签
+activate State
+State --> DataView: 返回数据和标签
+deactivate State
+
+DataView -> Pandas: 导出为CSV或Excel
+activate Pandas
+Pandas --> DataView: 返回文件字节流
+deactivate Pandas
+
+DataView -> UI: 提供下载按钮
+deactivate DataView
+
+User -> UI: 8. 下载文件
+UI --> User: 返回导出文件
+
+deactivate UI
+
+@enduml

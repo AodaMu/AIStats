@@ -1,0 +1,54 @@
+@startuml Function Calling架构图
+skinparam componentStyle rectangle
+
+title Function Calling架构\nFunction Calling Architecture\nFunction Calling архитектур
+
+package "用户层\nUser Layer\nХэрэглэгчийн давхарга" {
+  component "自然语言输入\nNatural Language Input\nБайгалийн хэл оролт" as User_Input
+}
+
+package "AI处理层\nAI Processing Layer\nХО боловсруулалтын давхарга" {
+  component "意图识别\nIntent Recognition\nСанаа таних" as AI_Intent
+  component "参数提取\nParameter Extraction\nПараметр гаргах" as AI_Params
+  component "函数选择\nFunction Selection\nФункц сонгох" as AI_Select
+}
+
+package "函数定义层\nFunction Definition Layer\nФункцийн тодорхойлолтын давхарга" {
+  component "统计函数库\nStatistical Functions\nСтатистик функцууд" as Func_Stat
+  component "数据查询函数\nData Query Functions\nӨгөгдөл асуулгын функц" as Func_Query
+  component "可视化函数\nVisualization Functions\nВизуалчлалын функц" as Func_Viz
+}
+
+package "执行层\nExecution Layer\nГүйцэтгэлийн давхарга" {
+  component "函数调用\nFunction Call\nФункц дуудлага" as Exec_Call
+  component "结果生成\nResult Generation\nҮр дүн үүсгэх" as Exec_Result
+}
+
+package "响应层\nResponse Layer\nХариу өгөх давхарга" {
+  component "双语解读\nBilingual Interpretation\nХоёр хэлний тайлбар" as Resp_Interp
+  component "结果展示\nResult Display\nҮр дүн харуулах" as Resp_Display
+}
+
+User_Input --> AI_Intent
+AI_Intent --> AI_Params
+AI_Params --> AI_Select
+
+AI_Select --> Func_Stat
+AI_Select --> Func_Query
+AI_Select --> Func_Viz
+
+Func_Stat --> Exec_Call
+Func_Query --> Exec_Call
+Func_Viz --> Exec_Call
+
+Exec_Call --> Exec_Result
+Exec_Result --> Resp_Interp
+Resp_Interp --> Resp_Display
+Resp_Display --> User_Input
+
+note right of AI_Select
+  <b>DeepSeek API</b>
+  Function Calling
+end note
+
+@enduml

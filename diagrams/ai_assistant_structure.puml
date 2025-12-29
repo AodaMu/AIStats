@@ -1,0 +1,28 @@
+@startuml AI助手模块结构图
+skinparam componentStyle rectangle
+top to bottom direction
+
+title AI туслахын бүтэц\nAI Assistant Structure
+
+package "Харагдац\nUser Interface" {
+  component "AI харилцах интерфейс\nAI Chat Interface" as UI
+}
+
+package "AI үндсэн модуль\nAI Core Module" {
+  component "Гурван давхар Prompt\nThree-Layer Prompt" as Prompt
+  component "Function Calling" as FuncCall
+  
+  Prompt -[hidden]right- FuncCall
+}
+
+package "Гадаад үйлчилгээ\nExternal Services" {
+  component "DeepSeek API" as DeepSeek
+}
+
+UI -down-> Prompt : 1. Хэрэглэгчийн асуулт\nUser Query
+Prompt -down-> DeepSeek : 2. Эхний дуудлага\n1st API Call
+DeepSeek -down-> FuncCall : 3. Function дуудлага\nFunction Call
+FuncCall -down-> DeepSeek : 4. Хоёр дахь дуудлага\n2nd API Call
+DeepSeek -up-> UI : 5. Тайлбар\nExplanation
+
+@enduml

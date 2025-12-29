@@ -1,0 +1,25 @@
+[theme]
+# 白色主题配置
+base = "light"
+primaryColor = "#1E88E5"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F5F5F5"
+textColor = "#000000"
+font = "sans serif"
+
+[browser]
+gatherUsageStats = false
+
+[server]
+headless = true
+
+[client]
+showSidebarNavigation = false
+toolbarMode = "minimal"
+
+[runner]
+fastReruns = true
+
+[ui]
+hideTopBar = false
+

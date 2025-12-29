@@ -1,0 +1,89 @@
+@startuml AIStats_Sequence_Diagram
+!theme plain
+skinparam sequenceMessageAlign center
+
+title AIStats AI-Assisted Analysis Sequence Diagram (Function Calling)
+
+actor User as User
+participant "Streamlit UI\n(ai_view_v2.py)" as UI
+participant "AI Module\n(AIAssistant)" as AI
+participant "DeepSeek API\n(LLM)" as LLM
+participant "Stat Functions\n(stat_functions.py)" as StatFunc
+database "Session State\n(Data Storage)" as State
+
+== 1. User Query ==
+User -> UI: Natural language query\n"Analyze correlation between age and score"
+activate UI
+UI -> State: Get chat history
+activate State
+State --> UI: Return history
+deactivate State
+
+UI -> AI: Call ai_chat_loop(user_message)
+activate AI
+
+== 2. LLM Intent Recognition ==
+AI -> LLM: chat.completions.create(\n  messages=chat_history,\n  functions=FUNCTION_DEFINITIONS,\n  function_call="auto"\n)
+activate LLM
+note right of LLM
+  Analyze user intent
+  Identify function to call
+  Extract parameters:
+  - var1 = "age"
+  - var2 = "score"
+end note
+
+LLM --> AI: Return function_call{\n  name: "correlation_analysis",\n  arguments: {"var1": "age", "var2": "score"}\n}
+deactivate LLM
+
+== 3. Execute Statistical Analysis ==
+AI -> StatFunc: correlation_analysis(\n  var1="age",\n  var2="score"\n)
+activate StatFunc
+
+StatFunc -> State: Get dataset(st.session_state.data)
+activate State
+State --> StatFunc: Return DataFrame
+deactivate State
+
+StatFunc -> StatFunc: Calculate Pearson correlation\nr, p = stats.pearsonr(x, y)
+note right of StatFunc
+  Execute calculation:
+  - Data cleaning
+  - Correlation coefficient
+  - Significance test
+end note
+
+StatFunc --> AI: Return results{\n  "r": 0.75,\n  "p": 0.001,\n  "n": 100\n}
+deactivate StatFunc
+
+== 4. Generate Interpretation ==
+AI -> LLM: chat.completions.create(\n  messages=[\n    function_result,\n    "Interpret this correlation result"\n  ]\n)
+activate LLM
+note right of LLM
+  Based on statistics
+  Generate plain explanation
+end note
+
+LLM --> AI: Return interpretation\n"age and score show strong positive correlation\n(r=0.75, p<0.001), indicating significant relationship"
+deactivate LLM
+
+== 5. Return Results ==
+AI -> State: Save chat and results
+activate State
+State --> AI: Save successful
+deactivate State
+
+AI --> UI: Return assistant_message
+deactivate AI
+
+UI --> User: Display results and AI interpretation
+deactivate UI
+
+note over User, State
+  Total process: ~2 seconds
+  No statistical expertise required
+  Natural language enables complex analysis
+end note
+
+@enduml
+

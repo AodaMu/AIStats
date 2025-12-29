@@ -1,0 +1,55 @@
+@startuml 双向绑定架构图
+skinparam componentStyle rectangle
+
+title 双向绑定架构\nBidirectional Binding Architecture\nХоёр чиглэлийн холболтын архитектур
+
+package "用户界面层\nUI Layer\nХэрэглэгчийн интерфейс" {
+  component "变量标签编辑器\nVariable Label Editor\nХувьсагчийн шошго засварлагч" as UI_VarEditor
+  component "值标签编辑器\nValue Label Editor\nУтгын шошго засварлагч" as UI_ValEditor
+  component "数据表格\nData Table\nӨгөгдлийн хүснэгт" as UI_Table
+}
+
+package "绑定管理层\nBinding Manager Layer\nХолболт удирдлагын давхарга" {
+  component "变量标签绑定\nVariable Label Binding\nХувьсагч шошго холболт" as Bind_Var
+  component "值标签绑定\nValue Label Binding\nУтга шошго холболт" as Bind_Val
+  component "同步控制器\nSync Controller\nСинхрон удирдагч" as Bind_Sync
+}
+
+package "数据存储层\nData Storage Layer\nӨгөгдөл хадгалах давхарга" {
+  component "DataFrame\nDataFrame\nDataFrame" as Data_DF
+  component "变量标签字典\nVariable Labels Dict\nХувьсагч шошгоны толь" as Data_VarDict
+  component "值标签字典\nValue Labels Dict\nУтга шошгоны толь" as Data_ValDict
+}
+
+package "应用层\nApplication Layer\nПрограмын давхарга" {
+  component "统计分析\nStatistical Analysis\nСтатистик шинжилгээ" as App_Stat
+  component "数据可视化\nData Visualization\nӨгөгдөл визуалчлал" as App_Viz
+  component "结果展示\nResult Display\nҮр дүн харуулах" as App_Display
+}
+
+UI_VarEditor <--> Bind_Var : 双向同步\nBi-sync\nХоёр чиглэл
+UI_ValEditor <--> Bind_Val : 双向同步\nBi-sync\nХоёр чиглэл
+UI_Table <--> Bind_Sync : 双向同步\nBi-sync\nХоёр чиглэл
+
+Bind_Var <--> Data_VarDict : 实时更新\nReal-time\nБодит цаг
+Bind_Val <--> Data_ValDict : 实时更新\nReal-time\nБодит цаг
+Bind_Sync <--> Data_DF : 实时更新\nReal-time\nБодит цаг
+
+Data_VarDict --> App_Stat
+Data_ValDict --> App_Stat
+Data_DF --> App_Stat
+
+Data_ValDict --> App_Viz
+Data_DF --> App_Viz
+
+App_Stat --> App_Display
+App_Viz --> App_Display
+
+note bottom of Bind_Sync
+  <b>核心特性 | Core Feature | Үндсэн онцлог</b>
+  • 自动同步 | Auto Sync | Автомат синхрон
+  • 无需刷新 | No Refresh | Шинэчлэлгүй
+  • 一致性保证 | Consistency | Тогтвортой байдал
+end note
+
+@enduml

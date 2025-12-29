@@ -1,0 +1,79 @@
+@startuml AIStats用例图
+
+left to right direction
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+
+' 定义用户
+actor "用户\n(学生/教师/研究者)" as User
+
+' 定义系统边界
+rectangle "AIStats 系统" {
+    
+    ' 数据管理用例
+    package "数据管理" {
+        usecase "数据导入" as UC1
+        usecase "数据预览" as UC2
+        usecase "变量标签管理" as UC3
+        usecase "数据导出" as UC4
+    }
+    
+    ' 可视化用例
+    package "可视化" {
+        usecase "生成图表" as UC5
+        usecase "图表交互" as UC6
+        usecase "AI图表分析" as UC7
+    }
+    
+    ' 统计分析用例
+    package "统计分析" {
+        usecase "执行统计方法" as UC8
+        usecase "查看结果" as UC9
+        usecase "AI结果解读" as UC10
+    }
+    
+    ' AI辅助用例
+    package "AI辅助" {
+        usecase "自然语言查询" as UC11
+        usecase "自动方法选择" as UC12
+        usecase "智能解读" as UC13
+    }
+}
+
+' 用户与用例的关系
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC4
+User --> UC5
+User --> UC6
+User --> UC7
+User --> UC8
+User --> UC9
+User --> UC10
+User --> UC11
+User --> UC12
+User --> UC13
+
+' 用例之间的关系
+UC5 ..> UC6 : <<include>>
+UC8 ..> UC9 : <<include>>
+UC11 ..> UC12 : <<include>>
+UC12 ..> UC13 : <<include>>
+UC7 ..> UC5 : <<extend>>
+UC10 ..> UC8 : <<extend>>
+
+note right of UC5
+  支持7种图表类型：
+  折线图、散点图、柱状图
+  箱线图、饼图、直方图、3D散点图
+end note
+
+note right of UC8
+  支持16种统计方法：
+  描述统计、t检验系列
+  方差分析、相关分析
+  回归分析、信度分析等
+end note
+
+@enduml

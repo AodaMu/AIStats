@@ -1,0 +1,51 @@
+@startuml Statistical_Analysis_Use_Case
+skinparam monochrome true
+skinparam shadowing false
+skinparam actorStyle hollow
+skinparam defaultFontSize 10
+
+left to right direction
+
+title Статистик Шинжилгээний Хэрэглээний Тохиолдол
+
+actor "User" as User
+
+' -------- 主要用例 --------
+usecase "Select Method" as UC_Select
+usecase "Configure Variables" as UC_Config
+usecase "Execute Analysis" as UC_Execute
+usecase "View Results" as UC_View
+usecase "AI Interpretation" as UC_AI
+
+' -------- 统计方法 --------
+usecase "Descriptive Statistics" as UC1
+usecase "One-Sample t Test" as UC2
+usecase "Paired t Test" as UC3
+usecase "Independent t Test" as UC4
+usecase "One-Way ANOVA" as UC5
+usecase "Pearson Correlation" as UC6
+usecase "Simple Regression" as UC7
+usecase "Multiple Regression" as UC8
+usecase "Cronbach's Alpha" as UC9
+usecase "Mediation Analysis" as UC10
+
+' ======== 用户与主要用例的关系 ========
+User --> UC_Select
+User --> UC_Config
+User --> UC_Execute
+User --> UC_View
+User --> UC_AI
+
+' ======== 方法列表 ========
+UC_Execute --> UC1
+UC_Execute --> UC2
+UC_Execute --> UC3
+UC_Execute --> UC4
+UC_Execute --> UC5
+UC_Execute --> UC6
+UC_Execute --> UC7
+UC_Execute --> UC8
+UC_Execute --> UC9
+UC_Execute --> UC10
+
+@enduml

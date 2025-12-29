@@ -1,0 +1,47 @@
+@startuml System_Architecture
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontSize 10
+skinparam rectangle {
+    BackgroundColor White
+    BorderColor Black
+}
+
+title AIStats Системийн Архитектур
+
+rectangle "Илэрхийлэлийн давхар\nPresentation Layer" as PL_title #LightGray
+rectangle PL {
+    rectangle "Өгөгдлийн харагдац\nData View" as V1
+    rectangle "Утгын шошго\nLabel View" as V2
+    rectangle "AI харагдац\nAI View" as V3
+    rectangle "Зураг харагдац\nPlot View" as V4
+    rectangle "Статистик харагдац\nStats View" as V5
+    rectangle "Нэр томъёо тайлбар\nTerminology" as V6
+    rectangle "Шинэ хэрэглэгчийн гарын авлага\nGuide" as V7
+}
+
+rectangle "Үндсэн давхар\nCore Layer" as BL_title #LightGray
+rectangle BL {
+    rectangle "Өгөгдөл боловсруулалт\nData Processing" as B1
+    rectangle "AI туслах\nAI Assistant" as B2
+    rectangle "Харуулах хөдөлгүүр\nVisualization" as B3
+    rectangle "Статистик шинжилгээ\nStat Analyzer" as B4
+}
+
+rectangle "Суурь давхар\nInfrastructure Layer" as TL_title #LightGray
+rectangle TL {
+    rectangle "pandas" as T1
+    rectangle "NumPy" as T2
+    rectangle "SciPy" as T3
+    rectangle "statsmodels" as T4
+    rectangle "Plotly" as T5
+    rectangle "DeepSeek API" as T6
+}
+
+PL_title -[hidden]down- PL
+PL -down-> BL_title
+BL_title -[hidden]down- BL
+BL -down-> TL_title
+TL_title -[hidden]down- TL
+
+@enduml

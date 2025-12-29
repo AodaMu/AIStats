@@ -1,0 +1,92 @@
+@startuml 绘图视图模块结构图
+skinparam componentStyle rectangle
+
+title 绘图视图结构\nPlot View Structure\nГрафик харагдацын бүтэц
+
+package "前端界面\nFrontend\nФронт интерфейс" {
+  component "绘图视图\nPlot View\nГрафик харагдац" as UI_PlotView
+  component "图表设置\nChart Config\nГрафик тохиргоо" as UI_Config
+  component "图表展示\nChart Display\nГрафик харуулалт" as UI_Display
+}
+
+package "图表类型\nChart Types\nГрафикийн төрлүүд" {
+  component "折线图\nLine\nШугаман" as M_Line
+  component "散点图\nScatter\nЦэгэн" as M_Scatter
+  component "柱状图\nBar\nБаганан" as M_Bar
+  component "箱线图\nBox\nХайрцаг" as M_Box
+  component "饼图\nPie\nДугуй" as M_Pie
+  component "直方图\nHistogram\nГистограм" as M_Hist
+  component "3D散点图\n3D Scatter\n3D цэгэн" as M_Scatter3D
+}
+
+package "数据处理\nData Processing\nӨгөгдөл боловсруулалт" {
+  component "原始数据\nRaw Data\nТүүхий өгөгдөл" as D_Raw
+  component "值标签\nValue Labels\nУтга шошго" as D_ValueLabels
+  component "标签化数据\nLabeled Data\nШошготой өгөгдөл" as D_Labeled
+}
+
+package "可视化引擎\nVisualization\nВизуалчлал" {
+  component "数据组装\nData Build\nӨгөгдөл угсрах" as V_DataBuild
+  component "样式布局\nStyle & Layout\nЗагвар байршил" as V_Style
+  component "图表渲染\nRender\nДүрслэх" as V_Render
+}
+
+package "AI解读\nAI Interpretation\nХО тайлбар" {
+  component "信息抽取\nInfo Extract\nМэдээлэл гаргах" as A_Info
+  component "提示构建\nPrompt Build\nАсуулт бүтээх" as A_Prompt
+  component "解读结果\nExplanation\nТайлбар үр дүн" as A_Explain
+}
+
+package "会话状态\nSession State\nСессийн төлөв" {
+  component "data" as S_Data
+  component "value_labels" as S_Labels
+  component "ai_config" as S_AI
+}
+
+package "外部库\nExternal Libs\nГадаад сангууд" {
+  component "pandas" as L_Pandas
+  component "Plotly" as L_Plotly
+  component "LLM" as L_LLM
+}
+
+UI_PlotView -- UI_Config
+UI_PlotView -- UI_Display
+
+UI_Config --> M_Line
+UI_Config --> M_Scatter
+UI_Config --> M_Bar
+UI_Config --> M_Box
+UI_Config --> M_Pie
+UI_Config --> M_Hist
+UI_Config --> M_Scatter3D
+
+M_Line --> D_Raw
+M_Scatter --> D_Raw
+M_Bar --> D_Raw
+M_Box --> D_Raw
+M_Pie --> D_Raw
+M_Hist --> D_Raw
+M_Scatter3D --> D_Raw
+
+D_Raw --> D_ValueLabels
+D_ValueLabels --> D_Labeled
+
+D_Labeled --> V_DataBuild
+V_DataBuild --> V_Style
+V_Style --> V_Render
+V_Render --> UI_Display
+
+UI_Display --> A_Info
+A_Info --> A_Prompt
+A_Prompt --> L_LLM
+L_LLM --> A_Explain
+A_Explain --> UI_Display
+
+D_Raw --> S_Data
+D_ValueLabels --> S_Labels
+A_Prompt --> S_AI
+
+D_Raw --> L_Pandas
+V_Render --> L_Plotly
+
+@enduml

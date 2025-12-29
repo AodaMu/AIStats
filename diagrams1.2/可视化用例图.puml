@@ -1,0 +1,56 @@
+@startuml Visualization_Use_Case
+' ============ 论文用可视化模块用例图 ============
+skinparam monochrome true
+skinparam shadowing false
+skinparam actorStyle hollow
+skinparam defaultFontSize 11
+skinparam usecase {
+    BackgroundColor White
+    BorderColor Black
+}
+
+left to right direction
+
+title Дүрслэл Хэрэглээний тохиолдол 
+
+actor "User" as User
+
+' -------- 图表生成功能 --------
+usecase "Select Chart Type" as UC_Select
+usecase "Configure Parameters" as UC_Config
+usecase "Generate Chart" as UC_Generate
+
+usecase "Bar Chart" as UC1_1
+usecase "Line Chart" as UC1_2
+usecase "Scatter Plot" as UC1_3
+usecase "Box Plot" as UC1_4
+usecase "Histogram" as UC1_5
+usecase "Pie Chart" as UC1_6
+usecase "3D Scatter" as UC1_7
+
+' -------- 图表交互功能 --------
+usecase "Zoom & Pan" as UC2_1
+usecase "Export Image" as UC2_2
+
+' -------- AI分析功能 --------
+usecase "AI Chart Analysis" as UC3_1
+
+' ======== 用户与主要用例的关系 ========
+User --> UC_Select
+User --> UC_Config
+User --> UC_Generate
+User --> UC2_1
+User --> UC2_2
+User --> UC3_1
+
+' ======== 用例之间的关系 ========
+' 生成图表扩展为具体图表类型
+UC_Generate --> UC1_1
+UC_Generate --> UC1_2
+UC_Generate --> UC1_3
+UC_Generate --> UC1_4
+UC_Generate --> UC1_5
+UC_Generate --> UC1_6
+UC_Generate --> UC1_7
+
+@enduml

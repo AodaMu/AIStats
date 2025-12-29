@@ -1,0 +1,41 @@
+@startuml 核心技术架构图
+skinparam componentStyle rectangle
+
+title 核心技术架构\nCore Technologies Architecture\nҮндсэн технологийн архитектур
+
+package "用户层\nUser Layer\nХэрэглэгч" {
+  component "自然语言\nNatural Language\nБайгалийн хэл" as UI_NL
+  component "标签编辑\nLabel Editor\nШошго засвар" as UI_Label
+}
+
+package "Function Calling\nFunction Calling\nFunction Calling" {
+  component "AI处理\nAI Processing\nХО боловсруулалт" as FC_AI
+  component "函数调用\nFunction Call\nФункц дуудлага" as FC_Call
+}
+
+package "双向绑定\nBidirectional Binding\nХоёр чиглэл холболт" {
+  component "标签同步\nLabel Sync\nШошго синхрон" as BB_Sync
+}
+
+package "数据层\nData Layer\nӨгөгдөл" {
+  component "DataFrame & 标签\nDataFrame & Labels\nDataFrame ба шошго" as Data_All
+}
+
+UI_NL --> FC_AI
+FC_AI --> FC_Call
+FC_Call --> Data_All
+
+UI_Label <--> BB_Sync
+BB_Sync <--> Data_All
+
+note right of FC_Call
+  <b>Function Calling</b>
+  AI自动调用统计函数
+end note
+
+note left of BB_Sync
+  <b>双向绑定</b>
+  标签实时同步
+end note
+
+@enduml
