@@ -103,7 +103,4 @@ AIStats/
 
 MIT Лиценз
 
-## 🙏 Талархал
 
-- [PsychPen](https://github.com/LeafYeeXYZ/PsychPen)-ээс санаа авсан
-- Streamlit, Plotly, SciPy, Statsmodels ашиглан бүтээсэн

@@ -103,7 +103,4 @@ AIStats/
 
 MIT 许可证
 
-## 🙏 致谢
 
-- 设计灵感来自 [PsychPen](https://github.com/LeafYeeXYZ/PsychPen)
-- 基于 Streamlit、Plotly、SciPy、Statsmodels 构建

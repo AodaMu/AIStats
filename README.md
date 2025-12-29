@@ -103,7 +103,4 @@ AIStats/
 
 MIT License
 
-## 🙏 Acknowledgments
 
-- Inspired by [PsychPen](https://github.com/LeafYeeXYZ/PsychPen)
-- Built with Streamlit, Plotly, SciPy, Statsmodels
